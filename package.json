@@ -1,0 +1,37 @@
+{
+  "name": "sprint.node-express",
+  "version": "1.0.0",
+  "description": "Node/Express sprint for Code Chrysalis",
+  "main": "server/index.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --fix --ext .js .",
+    "start": "cross-env NODE_ENV=production node server/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js",
+    "test": "cross-env NODE_ENV=test mocha --reporter nyan test/test.js && yarn lint",
+    "precommit": "pretty-quick --staged"
+  },
+  "author": "Mike Donnelly <sqldonnelly@gmail.com>",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "chalk": "^2.4.0",
+    "ejs": "^2.5.9",
+    "express": "^4.16.3",
+    "express-ejs-layouts": "^2.4.0",
+    "morgan": "^1.7.0"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "chai-http": "^4.0.0",
+    "cross-env": "^5.1.4",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-problems": "^0.1.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^0.14.3",
+    "mocha": "^5.1.1",
+    "nodemon": "^1.17.3",
+    "prettier": "^1.12.1",
+    "pretty-quick": "^1.4.1"
+  }
+}
