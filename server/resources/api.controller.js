@@ -15,5 +15,30 @@ module.exports = {
       false
     );
   },
+  quotes(req, res) {
+    if (req.query.author) {
+      send(
+        res,
+        OK,
+        JSON.parse(
+          `{"quotes":[{"text": "If you want to achieve greatness stop asking for permission.","author": "Anonymous"}]}`
+        ),
+        false
+      );
+    } else {
+      send(
+        res,
+        OK,
+        JSON.parse(
+          `{"quotes":[{"text": "If you want to achieve greatness stop asking for permission.","author": "Anonymous"}]}`
+        ),
+        false
+      );
+    }
+  },
   // your code here!
+  //const quotes = read();
+  // app.get('/', (request, response) => {
+
+  // })
 };

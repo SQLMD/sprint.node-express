@@ -3,7 +3,7 @@ const controller = require("./api.controller.js");
 
 router.get("/", controller.hello);
 // router.get('/quotes/random' /*insert controller method here*/);
-// router.route('/quotes')
+router.get("/quotes", controller.quotes);
 // .get(/*insert controller method here*/)
 // .post(/*insert controller method here*/)
 // .put(/*insert controller method here*/);

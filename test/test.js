@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring, no-console, no-restricted-syntax */
 const PORT = process.env.PORT || 3000;
-
+const should = require("chai").should();
 const fs = require("fs");
 const quotes = require("./quotes.json");
 const app = require("../server/server.js");
@@ -27,7 +27,7 @@ describe("GET /api", () => {
       .get("/api")
       .set("Content-Type", "application/json")
       .end((_, res) => {
-        status = res.status;
+        status = res.statusCode;
         response = res.text;
         done();
       });
@@ -44,7 +44,7 @@ describe("GET /api", () => {
   });
 });
 
-xdescribe("GET /api/quotes", () => {
+describe("GET /api/quotes", () => {
   let status;
   let response;
   let responseQuotes;
@@ -61,25 +61,25 @@ xdescribe("GET /api/quotes", () => {
       });
   });
 
-  xit("should return status 200.", (done) => {
+  it("should return status 200.", (done) => {
     status.should.equal(200);
     done();
   });
 
-  xit("should be a JSON object.", (done) => {
+  it("should be a JSON object.", (done) => {
     response.should.be.a("string");
     response = JSON.parse(response);
     response.should.be.an("object");
     done();
   });
 
-  xit('should have a "quotes" property containing an array.', (done) => {
+  it('should have a "quotes" property containing an array.', (done) => {
     response.should.have.a.property("quotes").that.is.an("array");
     responseQuotes = response.quotes;
     done();
   });
 
-  xit('should contain only quotes with both "text" and an "author".', (done) => {
+  it('should contain only quotes with both "text" and an "author".', (done) => {
     for (const quote of responseQuotes) {
       quote.should.be.an("object");
       quote.should.have.a.property("text");
@@ -90,7 +90,7 @@ xdescribe("GET /api/quotes", () => {
     done();
   });
 
-  xit("should allow an author parameter.", (done) => {
+  it("should allow an author parameter.", (done) => {
     chai
       .request(app)
       .get("/api/quotes?author=''")

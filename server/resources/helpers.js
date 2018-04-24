@@ -6,8 +6,15 @@ const TYPE = "utf8";
 
 const cache = null;
 
-const read = () => {
-  // read the quotes text file into memory
+const read = (callback) => {
+  const result = [];
+
+  const quotesText = fs.readFile(QUOTES, TYPE, (err, result) => {
+    if (err) {
+      return err;
+    }
+    return callback(result);
+  });
 };
 
 const send = (res, code, data, json = true) => {
