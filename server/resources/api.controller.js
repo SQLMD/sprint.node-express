@@ -1,4 +1,4 @@
-const { read, send } = require("./helpers");
+const { read, send, add } = require("./helpers");
 
 const OK = 200;
 const FAIL = 400;
@@ -31,15 +31,19 @@ module.exports = {
     );
   },
   quotes(req, res) {
-    read().then((data) => {
-      const author = req.query.author;
-      const text = searchQuoteAuthors(data, author);
-      if (req.query.author) {
-        send(res, OK, text, true);
-      } else {
-        send(res, OK, data, false);
-      }
-    });
+    read()
+      .then((data) => {
+        const author = req.query.author;
+        const text = searchQuoteAuthors(data, author);
+        if (req.query.author) {
+          send(res, OK, text, true);
+        } else {
+          send(res, OK, data, false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   randomQuote(req, res) {
     read().then((data) => {
@@ -47,9 +51,16 @@ module.exports = {
       send(res, OK, text, true);
     });
   },
-  // your code here!
-  //const quotes = read();
-  // app.get('/', (request, response) => {
 
-  // })
+  postQuote(req, res) {
+    const text = req.body.text;
+    const author = req.body.author;
+    if (text.length === 0) {
+      send(res, FAIL, text, false);
+    } else {
+      add(text, author).then((data) => {
+        send(res, OK, data, true);
+      });
+    }
+  },
 };

@@ -166,7 +166,7 @@ describe("POST/PUT Tests", () => {
     fs.unlinkSync(quotesBackup);
   });
 
-  xdescribe("POST /api/quotes", () => {
+  describe("POST /api/quotes", () => {
     before((done) => {
       chai
         .request(app)
@@ -208,7 +208,7 @@ describe("POST/PUT Tests", () => {
         });
     });
 
-    xit("should append new entries to the end of the file.", (done) => {
+    it("should append new entries to the end of the file.", (done) => {
       chai
         .request(app)
         .post("/api/quotes")
