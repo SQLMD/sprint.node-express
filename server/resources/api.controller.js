@@ -2,7 +2,7 @@ const { read, send, add, edit } = require("./helpers");
 
 const OK = 200;
 const FAIL = 400;
-const SERVER_ERROR = 500;
+//const SERVER_ERROR = 500;
 
 /** *Controllers** */
 
@@ -68,14 +68,20 @@ module.exports = {
   putQuote(req, res) {
     const text = req.body.text;
     const quotes = req.body;
-    if (text === "" || quotes[0].text.length === 0) {
-      read().then((data) => {
-        send(res, FAIL, data, true);
+    if (!Object.keys(quotes).length) {
+      edit("").then((data) => {
+        send(res, OK, "", true);
       });
     } else {
-      edit(quotes).then((data) => {
-        send(res, OK, data, true);
-      });
+      if (text === "" || quotes[0].text.length === 0) {
+        read().then((data) => {
+          send(res, FAIL, data, true);
+        });
+      } else {
+        edit(quotes).then((data) => {
+          send(res, OK, data, true);
+        });
+      }
     }
   },
 };

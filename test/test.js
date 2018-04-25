@@ -1,5 +1,6 @@
 /* eslint-disable prefer-destructuring, no-console, no-restricted-syntax */
 const PORT = process.env.PORT || 3000;
+/* eslint-disable no-unused-vars*/
 const should = require("chai").should();
 const fs = require("fs");
 const quotes = require("./quotes.json");
@@ -323,7 +324,6 @@ describe("POST/PUT Tests", () => {
             .get("/api/quotes")
             .set("Content-Type", "application/json")
             .end((error, result) => {
-              console.log(result.text);
               JSON.parse(result.text)
                 .quotes.pop()
                 .should.deep.equal(fixedQuote);
@@ -332,6 +332,22 @@ describe("POST/PUT Tests", () => {
         });
     });
 
-    xit("should clear the file if passed an empty request body");
+    it("should clear the file if passed an empty request body", (done) => {
+      chai
+        .request(app)
+        .put("/api/quotes")
+        .set("Content-Type", "application/json")
+        .send("")
+        .end(() => {
+          chai
+            .request(app)
+            .get("/api/quotes")
+            .set("Content-Type", "application/json")
+            .end((_, res) => {
+              res.text.quotes.should.equal("");
+              done();
+            });
+        });
+    });
   });
 });
