@@ -1,4 +1,4 @@
-const { read, send, add } = require("./helpers");
+const { read, send, add, edit } = require("./helpers");
 
 const OK = 200;
 const FAIL = 400;
@@ -45,6 +45,7 @@ module.exports = {
         console.log(err);
       });
   },
+
   randomQuote(req, res) {
     read().then((data) => {
       const text = getRandomQuote(data);
@@ -59,6 +60,21 @@ module.exports = {
       send(res, FAIL, text, false);
     } else {
       add(text, author).then((data) => {
+        send(res, OK, data, true);
+      });
+    }
+  },
+
+  putQuote(req, res) {
+    const text = req.body.text;
+    const quotes = req.body;
+    // if (text === undefined) {
+    if (text === "") {
+      read().then((data) => {
+        send(res, FAIL, data, true);
+      });
+    } else {
+      edit(quotes).then((data) => {
         send(res, OK, data, true);
       });
     }

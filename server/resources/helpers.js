@@ -5,14 +5,38 @@ const QUOTES = "./server/data/quotes.txt";
 const TYPE = "utf8";
 
 let cache = null;
+function reverse(data) {
+  let str = "";
+  for (let i = 0; i < data.length; i++) {
+    str += `${data[i].text} ~${data[i].author}\n`;
+  }
+  return str.slice(0, -2);
+}
 
 const add = (text, author) => {
   return new Promise((resolve, reject) => {
     const quote = { text, author };
+    if (quote.author === undefined) {
+      quote.author = "Anonymous";
+    }
     fs.appendFile(QUOTES, quote, TYPE, (err) => {
       if (err) reject(err);
       else {
         cache.quotes.push(quote);
+        resolve(cache);
+      }
+    });
+  });
+};
+
+const edit = (data) => {
+  const strData = reverse(data);
+  return new Promise((resolve, reject) => {
+    console.log(data);
+    fs.writeFile(QUOTES, strData, (err) => {
+      if (err) reject(err);
+      else {
+        cache.quotes = data;
         resolve(cache);
       }
     });
@@ -48,4 +72,4 @@ const send = (res, code, data, json = true) => {
   res.status(code).send(json ? JSON.stringify(data) : data);
 };
 
-module.exports = { read, send, add };
+module.exports = { read, send, add, edit };

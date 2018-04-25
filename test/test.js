@@ -228,12 +228,35 @@ describe("POST/PUT Tests", () => {
         });
     });
 
-    xit('should fill in blank or missing authors with "Anonymous".', (done) => {
-      // Your code here!
+    it('should fill in blank or missing authors with "Anonymous".', (done) => {
+      const noAuthorQuote = {
+        text: "Nobody ever said this.",
+      };
+      const fixedQuote = {
+        text: "Nobody ever said this.",
+        author: "Anonymous",
+      };
+      chai
+        .request(app)
+        .post("/api/quotes")
+        .set("Content-Type", "application/json")
+        .send(noAuthorQuote)
+        .end(() => {
+          chai
+            .request(app)
+            .get("/api/quotes")
+            .set("Content-Type", "application/json")
+            .end((error, result) => {
+              JSON.parse(result.text)
+                .quotes.pop()
+                .should.deep.equal(fixedQuote);
+              done();
+            });
+        });
     });
   });
 
-  xdescribe("PUT /api/quotes", () => {
+  describe("PUT /api/quotes", () => {
     let status;
 
     before((done) => {
@@ -253,7 +276,7 @@ describe("POST/PUT Tests", () => {
       done();
     });
 
-    xit("should overwrite the existing quote file.", (done) => {
+    it("should overwrite the existing quote file.", (done) => {
       chai
         .request(app)
         .get("/api/quotes")
@@ -264,7 +287,7 @@ describe("POST/PUT Tests", () => {
         });
     });
 
-    xit('should return status 400 if "text" is empty.', (done) => {
+    it('should return status 400 if "text" is empty.', (done) => {
       chai
         .request(app)
         .put("/api/quotes")

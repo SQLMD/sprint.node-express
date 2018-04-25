@@ -6,6 +6,6 @@ router.get("/quotes/random", controller.randomQuote);
 router.get("/quotes", controller.quotes);
 // .get(/*insert controller method here*/)
 router.post("/quotes", controller.postQuote);
-// .put(/*insert controller method here*/);
+router.put("/quotes", controller.putQuote);
 
 module.exports = router;
