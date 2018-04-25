@@ -7,17 +7,24 @@ const TYPE = "utf8";
 const cache = null;
 
 const read = () => {
-  const data = fs.readFileSync(QUOTES, TYPE);
-  const splitData = data.split(/(.*\S)\s*~\s*(\S+(.*\S+)*)/g);
-  const arrayQuotes = [];
-  for (let i = 1; i < splitData.length; i += 4) {
-    const jsonQuote = {
-      text: splitData[i],
-      author: splitData[i + 1],
-    };
-    arrayQuotes.push(jsonQuote);
-  }
-  return { quotes: arrayQuotes };
+  return new Promise((resolve, reject) => {
+    fs.readFile(QUOTES, TYPE, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        const splitData = data.split(/(.*\S)\s*~\s*(\S+(.*\S+)*)/g);
+        const arrayQuotes = [];
+        for (let i = 1; i < splitData.length; i += 4) {
+          const jsonQuote = {
+            text: splitData[i],
+            author: splitData[i + 1],
+          };
+          arrayQuotes.push(jsonQuote);
+        }
+        resolve({ quotes: arrayQuotes });
+      }
+    });
+  });
 };
 
 const send = (res, code, data, json = true) => {

@@ -9,14 +9,17 @@ const SERVER_ERROR = 500;
 function searchQuoteAuthors(jsonObj, author) {
   const quoteList = jsonObj.quotes;
   for (let i = 0; i < quoteList.length; i++) {
-    //console.log(quoteList[i].author);
     if (quoteList[i].author === author) {
       return quoteList[i].text;
     }
     return "";
   }
 }
-
+function getRandomQuote(jsonObj) {
+  const quoteList = jsonObj.quotes;
+  const randomNum = Math.ceil(Math.random() * quoteList.length - 1);
+  return quoteList[randomNum];
+}
 module.exports = {
   hello(req, res) {
     read();
@@ -28,16 +31,21 @@ module.exports = {
     );
   },
   quotes(req, res) {
-    // read();
-
-    const author = req.query.author;
-    const text = searchQuoteAuthors(read(), author);
-
-    if (req.query.author) {
+    read().then((data) => {
+      const author = req.query.author;
+      const text = searchQuoteAuthors(data, author);
+      if (req.query.author) {
+        send(res, OK, text, true);
+      } else {
+        send(res, OK, data, false);
+      }
+    });
+  },
+  randomQuote(req, res) {
+    read().then((data) => {
+      const text = getRandomQuote(data);
       send(res, OK, text, true);
-    } else {
-      send(res, OK, read(), false);
-    }
+    });
   },
   // your code here!
   //const quotes = read();
