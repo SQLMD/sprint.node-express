@@ -6,6 +6,17 @@ const SERVER_ERROR = 500;
 
 /** *Controllers** */
 
+function searchQuoteAuthors(jsonObj, author) {
+  const quoteList = jsonObj.quotes;
+  for (let i = 0; i < quoteList.length; i++) {
+    //console.log(quoteList[i].author);
+    if (quoteList[i].author === author) {
+      return quoteList[i].text;
+    }
+    return "";
+  }
+}
+
 module.exports = {
   hello(req, res) {
     read();
@@ -17,10 +28,13 @@ module.exports = {
     );
   },
   quotes(req, res) {
-    read();
-    if (req.query.author === "") {
-      const author = req.query.author;
-      send(res, OK, JSON.parse(`{"length":${author.length}}`), false);
+    // read();
+
+    const author = req.query.author;
+    const text = searchQuoteAuthors(read(), author);
+
+    if (req.query.author) {
+      send(res, OK, text, true);
     } else {
       send(res, OK, read(), false);
     }

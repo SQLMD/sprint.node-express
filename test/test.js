@@ -93,10 +93,9 @@ describe("GET /api/quotes", () => {
   it("should allow an author parameter.", (done) => {
     chai
       .request(app)
-      .get("/api/quotes?author=")
+      .get("/api/quotes?author=''")
       .set("Content-Type", "application/json")
       .end((_, res) => {
-        console.log(res.text);
         JSON.parse(res.text).length.should.equal(0);
         done();
       });
