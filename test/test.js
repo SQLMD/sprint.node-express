@@ -303,8 +303,33 @@ describe("POST/PUT Tests", () => {
         });
     });
 
-    xit('should fill in blank or missing authors with "Anonymous".', (done) => {
-      // Your code here!
+    it('should fill in blank or missing authors with "Anonymous".', (done) => {
+      const noAuthorQuote = {
+        text: "This is no author quote",
+        author: "",
+      };
+      const fixedQuote = {
+        text: "This is no author quote",
+        author: "Anonymous",
+      };
+      chai
+        .request(app)
+        .put("/api/quotes")
+        .set("Content-Type", "application/json")
+        .send([noAuthorQuote])
+        .end(() => {
+          chai
+            .request(app)
+            .get("/api/quotes")
+            .set("Content-Type", "application/json")
+            .end((error, result) => {
+              console.log(result.text);
+              JSON.parse(result.text)
+                .quotes.pop()
+                .should.deep.equal(fixedQuote);
+              done();
+            });
+        });
     });
 
     xit("should clear the file if passed an empty request body");

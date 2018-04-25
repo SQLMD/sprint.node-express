@@ -8,6 +8,9 @@ let cache = null;
 function reverse(data) {
   let str = "";
   for (let i = 0; i < data.length; i++) {
+    if (data[i].author === "") {
+      data[i].author = "Anonymous";
+    }
     str += `${data[i].text} ~${data[i].author}\n`;
   }
   return str.slice(0, -2);
