@@ -8,6 +8,7 @@ const SERVER_ERROR = 500;
 
 module.exports = {
   hello(req, res) {
+    read();
     send(
       res,
       OK,
@@ -16,18 +17,12 @@ module.exports = {
     );
   },
   quotes(req, res) {
+    read();
     if (req.query.author === "") {
       const author = req.query.author;
       send(res, OK, JSON.parse(`{"length":${author.length}}`), false);
     } else {
-      send(
-        res,
-        OK,
-        JSON.parse(
-          `{"quotes":[{"text": "If you want to achieve greatness stop asking for permission.","author": "Anonymous"}]}`
-        ),
-        false
-      );
+      send(res, OK, read(), false);
     }
   },
   // your code here!

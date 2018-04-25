@@ -6,15 +6,18 @@ const TYPE = "utf8";
 
 const cache = null;
 
-const read = (callback) => {
-  const result = [];
-
-  const quotesText = fs.readFile(QUOTES, TYPE, (err, result) => {
-    if (err) {
-      return err;
-    }
-    return callback(result);
-  });
+const read = () => {
+  const data = fs.readFileSync(QUOTES, TYPE);
+  const splitData = data.split(/(.*\S)\s*~\s*(\S+(.*\S+)*)/g);
+  const arrayQuotes = [];
+  for (let i = 1; i < splitData.length; i += 4) {
+    const jsonQuote = {
+      text: splitData[i],
+      author: splitData[i + 1],
+    };
+    arrayQuotes.push(jsonQuote);
+  }
+  return { quotes: arrayQuotes };
 };
 
 const send = (res, code, data, json = true) => {
