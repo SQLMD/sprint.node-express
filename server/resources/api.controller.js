@@ -16,15 +16,9 @@ module.exports = {
     );
   },
   quotes(req, res) {
-    if (req.query.author) {
-      send(
-        res,
-        OK,
-        JSON.parse(
-          `{"quotes":[{"text": "If you want to achieve greatness stop asking for permission.","author": "Anonymous"}]}`
-        ),
-        false
-      );
+    if (req.query.author === "") {
+      const author = req.query.author;
+      send(res, OK, JSON.parse(`{"length":${author.length}}`), false);
     } else {
       send(
         res,
