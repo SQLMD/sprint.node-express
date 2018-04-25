@@ -68,8 +68,7 @@ module.exports = {
   putQuote(req, res) {
     const text = req.body.text;
     const quotes = req.body;
-    // if (text === undefined) {
-    if (text === "") {
+    if (text === "" || quotes[0].text.length === 0) {
       read().then((data) => {
         send(res, FAIL, data, true);
       });

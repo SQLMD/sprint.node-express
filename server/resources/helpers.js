@@ -32,7 +32,6 @@ const add = (text, author) => {
 const edit = (data) => {
   const strData = reverse(data);
   return new Promise((resolve, reject) => {
-    console.log(data);
     fs.writeFile(QUOTES, strData, (err) => {
       if (err) reject(err);
       else {
