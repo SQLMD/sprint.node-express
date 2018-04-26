@@ -337,16 +337,10 @@ describe("POST/PUT Tests", () => {
         .request(app)
         .put("/api/quotes")
         .set("Content-Type", "application/json")
-        .send("")
-        .end(() => {
-          chai
-            .request(app)
-            .get("/api/quotes")
-            .set("Content-Type", "application/json")
-            .end((_, res) => {
-              res.text.quotes.should.equal("");
-              done();
-            });
+        .send({})
+        .end((_, res) => {
+          res.body.should.deep.equal({});
+          done();
         });
     });
   });

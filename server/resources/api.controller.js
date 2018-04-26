@@ -68,20 +68,15 @@ module.exports = {
   putQuote(req, res) {
     const text = req.body.text;
     const quotes = req.body;
-    if (!Object.keys(quotes).length) {
-      edit("").then((data) => {
-        send(res, OK, "", true);
+
+    if (text === "" || quotes[0].text.length === 0) {
+      read().then((data) => {
+        send(res, FAIL, data, true);
       });
     } else {
-      if (text === "" || quotes[0].text.length === 0) {
-        read().then((data) => {
-          send(res, FAIL, data, true);
-        });
-      } else {
-        edit(quotes).then((data) => {
-          send(res, OK, data, true);
-        });
-      }
+      edit(quotes).then((data) => {
+        send(res, OK, data, true);
+      });
     }
   },
 };

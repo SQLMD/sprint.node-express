@@ -13,7 +13,7 @@ function reverse(data) {
     }
     str += `${data[i].text} ~${data[i].author}\n`;
   }
-  return str.slice(0, -2);
+  return str.slice(0, -1);
 }
 
 const add = (text, author) => {
